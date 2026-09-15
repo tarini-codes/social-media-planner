@@ -75,8 +75,16 @@ public class PostController {
     @GetMapping("/posts/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid post Id:" + id));
+
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("scheduledTime").descending());
+        Page<Post> postPage = postRepository.findAll(pageable);
+
         model.addAttribute("post", post);
-        model.addAttribute("posts", postRepository.findAll());
+        model.addAttribute("posts", postPage.getContent());
+        model.addAttribute("currentPage", 0);
+        model.addAttribute("totalPages", postPage.getTotalPages());
+        model.addAttribute("selectedPlatform", "All");
+
         return "posts";
     }
 }
