@@ -28,18 +28,6 @@ public class SocialMediaService {
     @Value("${telegram.chat.id}")
     private String telegramChatId;
 
-    @Value("${twitter.api.key}")
-    private String twitterApiKey;
-
-    @Value("${twitter.api.secret}")
-    private String twitterApiSecret;
-
-    @Value("${twitter.access.token}")
-    private String twitterAccessToken;
-
-    @Value("${twitter.access.token.secret}")
-    private String twitterAccessTokenSecret;
-
     @Value("${linkedin.access.token}")
     private String linkedinAccessToken;
 
@@ -71,10 +59,9 @@ public class SocialMediaService {
             switch (platform.toLowerCase()) {
                 case "telegram":
                     return publishToTelegram(caption);
-                case "twitter":
-                    return publishToTwitter(caption);
                 case "linkedin":
                     return publishToLinkedIn(caption);
+                case "twitter":
                 case "instagram":
                 case "facebook":
                 case "youtube":
@@ -102,31 +89,6 @@ public class SocialMediaService {
     private boolean publishMockPlatform(String platform, String caption) {
         System.out.println("Simulated auto-publish success for platform: " + platform + " with caption: " + caption);
         return true;
-    }
-
-    private boolean publishToTwitter(String caption) {
-        String url = "https://api.twitter.com/2/tweets";
-
-        String authHeader = TwitterOAuthUtil.buildAuthorizationHeader(
-                "POST", url,
-                twitterApiKey, twitterApiSecret,
-                twitterAccessToken, twitterAccessTokenSecret
-        );
-
-        org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
-        headers.set("Authorization", authHeader);
-        headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-
-        Map<String, String> body = new HashMap<>();
-        body.put("text", caption);
-
-        org.springframework.http.HttpEntity<Map<String, String>> request =
-                new org.springframework.http.HttpEntity<>(body, headers);
-
-        org.springframework.http.ResponseEntity<String> response =
-                restTemplate.postForEntity(url, request, String.class);
-
-        return response.getStatusCode().is2xxSuccessful();
     }
 
     private boolean publishToLinkedIn(String caption) {
