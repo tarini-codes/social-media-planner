@@ -24,6 +24,11 @@ public class SocialMediaService {
             switch (platform.toLowerCase()) {
                 case "telegram":
                     return publishToTelegram(caption);
+                case "linkedin":
+                case "twitter":
+                case "instagram":
+                case "facebook":
+                    return publishMockPlatform(platform, caption);
                 default:
                     return false;
             }
@@ -42,5 +47,10 @@ public class SocialMediaService {
 
         ResponseEntity<String> response = restTemplate.postForEntity(url, payload, String.class);
         return response.getStatusCode().is2xxSuccessful();
+    }
+
+    private boolean publishMockPlatform(String platform, String caption) {
+        System.out.println("Simulated auto-publish success for platform: " + platform + " with caption: " + caption);
+        return true;
     }
 }
