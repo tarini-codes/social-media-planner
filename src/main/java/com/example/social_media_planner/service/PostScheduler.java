@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Component
@@ -20,7 +21,7 @@ public class PostScheduler {
 
     @Scheduled(fixedRate = 30000)
     public void processScheduledPosts() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
         List<Post> posts = postRepository.findAll();
 
         for (Post post : posts) {
