@@ -21,6 +21,10 @@ public class Post {
     private LocalDateTime scheduledTime;
     private String status = "Pending";
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Users owner;
+
     public String getFormattedScheduledTime() {
         if (this.scheduledTime == null) {
             return "Not Scheduled";

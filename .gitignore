@@ -3,8 +3,10 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+application-local.properties
 
 ### STS ###
+*.txt
 .apt_generated
 .classpath
 .factorypath
